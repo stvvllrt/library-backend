@@ -21,7 +21,6 @@ dependencies {
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.postgresql)
     implementation(libs.h2)
-    implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
     implementation(libs.ktor.server.auth)
     implementation(libs.ktor.server.auth.jwt)
@@ -32,6 +31,6 @@ dependencies {
     testImplementation(libs.kotlin.test.junit)
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:1.0.0")
-
+    implementation("org.jetbrains.exposed:exposed-core:1.0.0")
 
 }

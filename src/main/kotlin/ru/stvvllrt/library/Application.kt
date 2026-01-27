@@ -5,6 +5,7 @@ import io.ktor.server.netty.EngineMain
 import ru.stvvllrt.library.plugins.configureDatabases
 import ru.stvvllrt.library.plugins.configureRouting
 import ru.stvvllrt.library.plugins.configureSecurity
+import ru.stvvllrt.library.plugins.configureSerialization
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -14,4 +15,5 @@ fun Application.module() {
     configureSecurity()
     configureRouting()
     configureDatabases()
+    configureSerialization()
 }
