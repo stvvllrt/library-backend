@@ -1,0 +1,30 @@
+meta {
+  name: createBookCopy
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://127.0.0.1:8080/books/1/copies
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "branchId": 1,
+    "condition": "GOOD",
+    "status": "AVAILABLE",
+    "notes": "3-е издание"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

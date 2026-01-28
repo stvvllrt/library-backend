@@ -11,7 +11,7 @@ data class BookCopyResponse(
     val inventoryCode: String,
     val status: String,
     val condition: String,
-    val notes: String,
+    val notes: String?,
     val addedTimestamp: Instant,
     val lastUpdateTimestamp: Instant
 )

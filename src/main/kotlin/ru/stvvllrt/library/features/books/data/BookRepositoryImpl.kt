@@ -1,17 +1,17 @@
 package ru.stvvllrt.library.features.books.data
 
-import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
-import java.time.LocalDateTime
 import org.jetbrains.exposed.v1.jdbc.*
 import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
-import ru.stvvllrt.library.data.BooksStock
+import ru.stvvllrt.library.common.generateInventoryCode
 import ru.stvvllrt.library.data.Books
+import ru.stvvllrt.library.data.BooksStock
 import ru.stvvllrt.library.features.books.domain.model.BookCopyResponse
 import ru.stvvllrt.library.features.books.domain.model.BookResponse
 import ru.stvvllrt.library.features.books.domain.model.BookWithCopiesResponse
+import ru.stvvllrt.library.features.books.domain.model.CreateBookCopyDto
 import ru.stvvllrt.library.features.books.domain.model.CreateBookDto
-import kotlin.let
+import java.sql.SQLException
 import kotlin.time.Clock
 
 class BookRepositoryImpl : BookRepository {
@@ -65,9 +65,58 @@ class BookRepositoryImpl : BookRepository {
                 }.singleOrNull()
         }
 
-    override suspend fun createBookCopy(bookId: Long, branchId: Long, inventoryCode: String): BookCopyResponse {
-        TODO("Not yet implemented")
+    override suspend fun getBookCopyById(id: Long): BookCopyResponse? = suspendTransaction() {
+        BooksStock.selectAll().where { BooksStock.id eq id }
+            .map { row ->
+                BookCopyResponse(
+                    id = row[BooksStock.id],
+                    bookId = row[BooksStock.bookId],
+                    branchId = row[BooksStock.branchId],
+                    inventoryCode = row[BooksStock.inventoryCode],
+                    status = row[BooksStock.status],
+                    condition = row[BooksStock.condition],
+                    notes = row[BooksStock.notes],
+                    addedTimestamp = row[BooksStock.addedTimestamp],
+                    lastUpdateTimestamp = row[BooksStock.lastUpdateTimestamp]
+                )
+            }.singleOrNull()
     }
+
+    override suspend fun createBookCopy(dto: CreateBookCopyDto): BookCopyResponse = suspendTransaction(){
+        var newId: Long
+        try {
+            newId = BooksStock.insert {
+                it[BooksStock.bookId] = dto.bookId ?: throw IllegalArgumentException("bookId не может быть null")
+                it[BooksStock.branchId] = dto.branchId
+                it[BooksStock.condition] = dto.condition
+                it[BooksStock.inventoryCode] = generateInventoryCode()
+                it[BooksStock.status] = dto.status
+                it[BooksStock.notes] = dto.notes
+                it[BooksStock.addedTimestamp] = Clock.System.now()
+                it[BooksStock.lastUpdateTimestamp] = Clock.System.now()
+            } get BooksStock.id
+        } catch (e: SQLException) {
+            if (e.message?.contains("unique constraint") == true) {
+                throw IllegalArgumentException("Книга с таким инвентарным кодом уже существует")
+            } else {
+                throw e
+            }
+        }
+        BooksStock.selectAll().where { BooksStock.id eq newId }
+            .map { row ->
+                BookCopyResponse(
+                    id = row[BooksStock.id],
+                    bookId = row[BooksStock.bookId],
+                    branchId = row[BooksStock.branchId],
+                    inventoryCode = row[BooksStock.inventoryCode],
+                    status = row[BooksStock.status],
+                    condition = row[BooksStock.condition],
+                    notes = row[BooksStock.notes],
+                    addedTimestamp = row[BooksStock.addedTimestamp],
+                    lastUpdateTimestamp = row[BooksStock.lastUpdateTimestamp]
+                )
+            }.single()
+}
 
     override suspend fun getCopiesByBookId(bookId: Long): List<BookCopyResponse> {
         TODO("Not yet implemented")

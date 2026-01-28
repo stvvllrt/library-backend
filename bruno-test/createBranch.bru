@@ -1,0 +1,27 @@
+meta {
+  name: createBranch
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://127.0.0.1:8080/branches
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  { name: "Отделение на Новомосковкой",
+    location: "г. Москва, ул. Новомосковская, д. 32, корпус 4А",
+    phone:"+79001234567",
+    worktime: "ПН-ПТ 11:00-19:00, СБ-ВС 9:00-17:00, Каждую последнюю пятницу месяца - генеральная уборка"}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
