@@ -7,15 +7,20 @@ import ru.stvvllrt.library.features.books.data.BookRepositoryImpl
 import ru.stvvllrt.library.features.books.presentation.bookRoutes
 import ru.stvvllrt.library.features.branches.data.BranchRepositoryImpl
 import ru.stvvllrt.library.features.branches.presentation.branchRoutes
+import ru.stvvllrt.library.features.users.data.UsersRepositoryImpl
+import ru.stvvllrt.library.features.users.presentation.userRoutes
 
 fun Application.configureRouting() {
-    val bookRepository = BookRepositoryImpl()
-    val branchRepository = BranchRepositoryImpl()
+    val booksRepository = BookRepositoryImpl()
+    val branchesRepository = BranchRepositoryImpl()
+    val usersRepository = UsersRepositoryImpl()
     routing {
         get("/") {
             call.respondText("Сервер работает, привет!")
         }
-        bookRoutes(bookRepository)
-        branchRoutes(branchRepository)
+        bookRoutes(booksRepository)
+        branchRoutes(branchesRepository)
+        userRoutes(usersRepository)
+
     }
 }

@@ -32,5 +32,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:1.0.0")
     implementation("org.jetbrains.exposed:exposed-core:1.0.0")
+    implementation("org.mindrot:jbcrypt:0.4")
 
 }

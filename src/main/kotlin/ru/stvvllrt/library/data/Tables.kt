@@ -1,6 +1,9 @@
 package ru.stvvllrt.library.data
 
 import org.jetbrains.exposed.v1.core.Table
+import org.jetbrains.exposed.v1.core.dao.id.IdTable
+import org.jetbrains.exposed.v1.core.dao.id.LongIdTable
+import org.jetbrains.exposed.v1.datetime.date
 import org.jetbrains.exposed.v1.datetime.timestamp
 
 object Books : Table() {
@@ -39,4 +42,16 @@ object Branches : Table(){
     val createdTimestamp = timestamp("created_timestamp")
 
     override val primaryKey = PrimaryKey(id)
+}
+
+object Users : LongIdTable() {
+    val firstname = varchar("firstname", 255)
+    val lastname = varchar("lastname", 255)
+    val birthday = varchar("birthday", length = 255)
+    val phone = varchar("phone", 20)
+    val email = varchar("email", 255).uniqueIndex()
+    val login = varchar("login", 50).uniqueIndex()
+    val password = varchar("password", 255)
+    val status = varchar("status", 20).default("ACTIVE") // ACTIVE, INACTIVE
+    val createdTimestamp = timestamp("created_timestamp")
 }
