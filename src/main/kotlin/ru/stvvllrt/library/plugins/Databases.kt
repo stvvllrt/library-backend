@@ -11,7 +11,7 @@ import ru.stvvllrt.library.data.Users
 
 fun Application.configureDatabases() {
     Database.connect(
-        url = "jdbc:postgresql://localhost:5432/library-database",
+        url = "jdbc:postgresql://localhost:5433/library-database",
         driver = "org.postgresql.Driver",
         user = "postgres",
         password = "1708"

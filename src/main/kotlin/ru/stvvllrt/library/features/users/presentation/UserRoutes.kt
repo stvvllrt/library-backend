@@ -24,16 +24,22 @@ fun Route.userRoutes(usersRepository: UsersRepository) {
                     call.respond(HttpStatusCode.BadRequest, "Логин и пароль не могут быть пустыми")
                     return@post
                 }
+                /*
                 if(usersRepository.getUserByLogin(dto.login) != null){
                     call.respond(HttpStatusCode.Conflict, "Пользователь с таким логином уже существует")
                     return@post
                 }
 
+                 */
+                exposedLogger.info("Reached point Hashing")
                 val passwordHash = PasswordHasher.hash(dto.password)
                 val user = usersRepository.createUser(dto, passwordHash)
+                exposedLogger.info("Reached point Alpha")
                 call.respond(HttpStatusCode.Created, user)
 
             } catch (e: Exception) {
+                exposedLogger.info("Reached point Beta")
+                exposedLogger.error(e.stackTraceToString())
                 call.respond(HttpStatusCode.BadRequest, e.message ?: "Server faced errors. Please contact administrator.")
             }
         }
