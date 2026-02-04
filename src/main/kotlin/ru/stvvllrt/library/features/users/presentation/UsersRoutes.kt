@@ -13,7 +13,7 @@ import ru.stvvllrt.library.features.users.data.UsersRepository
 import ru.stvvllrt.library.features.users.domain.model.CreateUserDto
 import ru.stvvllrt.library.features.users.domain.model.UserResponse
 
-fun Route.userRoutes(usersRepository: UsersRepository) {
+fun Route.usersRoutes(usersRepository: UsersRepository) {
 
     route("api/v1/users"){
         post{
@@ -24,21 +24,17 @@ fun Route.userRoutes(usersRepository: UsersRepository) {
                     call.respond(HttpStatusCode.BadRequest, "Логин и пароль не могут быть пустыми")
                     return@post
                 }
-                /*
+                /* Ошибка при попытке создания первого пользователя в таблице
                 if(usersRepository.getUserByLogin(dto.login) != null){
                     call.respond(HttpStatusCode.Conflict, "Пользователь с таким логином уже существует")
                     return@post
                 }
-
                  */
-                exposedLogger.info("Reached point Hashing")
                 val passwordHash = PasswordHasher.hash(dto.password)
                 val user = usersRepository.createUser(dto, passwordHash)
-                exposedLogger.info("Reached point Alpha")
                 call.respond(HttpStatusCode.Created, user)
 
             } catch (e: Exception) {
-                exposedLogger.info("Reached point Beta")
                 exposedLogger.error(e.stackTraceToString())
                 call.respond(HttpStatusCode.BadRequest, e.message ?: "Server faced errors. Please contact administrator.")
             }

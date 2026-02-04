@@ -33,5 +33,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:1.0.0")
     implementation("org.jetbrains.exposed:exposed-core:1.0.0")
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation("net.datafaker:datafaker:2.5.2")
 
 }

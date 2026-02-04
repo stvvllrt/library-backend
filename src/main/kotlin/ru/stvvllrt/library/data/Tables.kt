@@ -34,7 +34,7 @@ object Branches : Table(){
     val id = long("id").autoIncrement()
     val name = varchar("name", 255)
     val location = varchar("location", 255)
-    val phone = varchar("phone", 255).nullable()
+    val phone = varchar("phone", 255).nullable() // 8 (XXX) XXX-XX-XX
     val worktime = text("worktime").nullable()
     val createdTimestamp = timestamp("created_timestamp")
 
@@ -45,13 +45,22 @@ object Users : Table() {
     val id = long("id").autoIncrement()
     val firstname = varchar("firstname", 255)
     val lastname = varchar("lastname", 255)
-    val birthday = varchar("birthday", length = 255)
-    val phone = varchar("phone", 20)
+    val birthday = varchar("birthday", length = 255) // YYYY-MM-DD
+    val phone = varchar("phone", 20) // 8 (XXX) XXX-XX-XX
     val email = varchar("email", 255).uniqueIndex()
     val login = varchar("login", 50).uniqueIndex()
     val password = varchar("password", 255)
     val status = varchar("status", 20).default("ACTIVE") // ACTIVE, INACTIVE
     val createdTimestamp = timestamp("created_timestamp")
 
+    override val primaryKey = PrimaryKey(id)
+}
+
+object Librarians : Table(){
+    val id = long("id").autoIncrement()
+    val userId = long("user_id").uniqueIndex() references Users.id
+    val branchId = long("branch_id") references Branches.id
+    val status = varchar("status", 20).default("ACTIVE") // ACTIVE, INACTIVE
+    val hiredTimestamp = timestamp("hired_timestamp")
     override val primaryKey = PrimaryKey(id)
 }
