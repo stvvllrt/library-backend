@@ -77,4 +77,10 @@ class UsersRepositoryImpl : UsersRepository{
                 )
             }.single()
     }
+
+    override suspend fun getPasswordHashByLogin(login: String): String? = suspendTransaction{
+        Users.selectAll().where { Users.login eq login }
+            .map { row -> row[Users.password] }
+            .singleOrNull()
+    }
 }

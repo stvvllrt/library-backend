@@ -24,7 +24,7 @@ fun Application.configureRouting() {
         }
         bookRoutes(booksRepository)
         branchRoutes(branchesRepository)
-        usersRoutes(usersRepository)
+        usersRoutes(usersRepository, librariansRepository)
         librariansRoutes(librariansRepository)
         serviceRoutes()
     }

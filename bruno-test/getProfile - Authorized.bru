@@ -1,0 +1,20 @@
+meta {
+  name: getProfile - Authorized
+  type: http
+  seq: 11
+}
+
+get {
+  url: http://127.0.0.1:8080/api/v1/users/profile
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJsaWJyYXJ5LXVzZXJzIiwiaXNzIjoibGlicmFyeS1iYWNrZW5kIiwidXNlcklkIjoxLCJsb2dpbiI6InZhbnlhMTk5NSIsImlzTGlicmFyaWFuIjp0cnVlLCJleHAiOjE3NzAzOTYwMTl9.fpmlHhV9cEQIO3Ow9ylA-EDhip_RfEVq3lvhcDMeIk8
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -7,4 +7,5 @@ interface UsersRepository {
     suspend fun createUser(dto: CreateUserDto, passwordHash: String): UserResponse
     suspend fun getUserById(id: Long): UserResponse?
     suspend fun getUserByLogin(login: String): UserResponse?
+    suspend fun getPasswordHashByLogin(login: String): String?
 }
